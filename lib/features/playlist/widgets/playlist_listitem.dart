@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart';
 import 'package:timed_app/core/constants/constatnts.dart';
 import 'package:timed_app/features/playlist/providers/playlist_provider.dart';
+import '../../../commons/widgets/spacer.dart';
 import '../../../data/models/playlist.dart';
 import '../../../data/models/track.dart';
 
@@ -22,6 +23,9 @@ class PlaylistListItem extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final nameController = StateProvider(
+      (ref) => TextEditingController(text: playlist!.name),
+    );
     return Material(
       color: isSelected ? Colors.black : Colors.transparent,
       child: InkWell(
@@ -53,6 +57,100 @@ class PlaylistListItem extends ConsumerWidget {
                     value: 'Rename',
                     height: 40.0,
                     child: Text('Rename'),
+                    onTap: () async {
+                      await showDialog(
+                        context: context,
+                        builder: (_) => Dialog(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(6.0),
+                          ),
+                          child: Container(
+                            height: 200,
+                            width: 400,
+                            padding: const EdgeInsets.all(20.0),
+                            decoration: BoxDecoration(
+                              // color: Colors.black,
+                              // borderRadius: BorderRadius.circular(6.0),
+                            ),
+                            child: Column(
+                              children: [
+                                Text(
+                                  'Rename Playlist',
+                                  style: TextStyle(
+                                    color: Colors.white70,
+                                    fontSize: 20.0,
+                                  ),
+                                ),
+                                spacer(h: 20.0),
+                                TextFormField(
+                                  // initialValue: playlist!.name,
+                                  controller: ref.read(nameController),
+                                  style: TextStyle(color: Colors.white),
+                                  decoration: InputDecoration(
+                                    border: OutlineInputBorder(
+                                      borderRadius: BorderRadius.circular(8),
+                                      borderSide: BorderSide(
+                                        color: Colors.grey[300]!,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                spacer(h: 20.0),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    SizedBox(
+                                      width: 100.0,
+                                      height: 40.0,
+                                      child: TextButton(
+                                        child: Text(
+                                          'Cancel',
+                                          style: TextStyle(color: Colors.red),
+                                        ),
+                                        onPressed: () => Navigator.pop(context),
+                                      ),
+                                    ),
+                                    spacer(w: 20.0),
+                                    SizedBox(
+                                      width: 100.0,
+                                      height: 40.0,
+                                      child: TextButton(
+                                        child: Text(
+                                          'Save',
+                                          style: TextStyle(
+                                            // color: Colors.orange,
+                                          ),
+                                        ),
+                                        onPressed: () async {
+                                          final playlistService = ref.read(
+                                            playlistServiceProvider,
+                                          );
+                                          await playlistService.updatePlaylist(
+                                            playlist!
+                                                .copyWith(
+                                                  name: ref
+                                                      .read(nameController)
+                                                      .text,
+                                                )
+                                                .toMap(),
+                                          );
+                                          ref
+                                              .read(playlistProvider.notifier)
+                                              .refreshPlaylists();
+                                          // ignore: use_build_context_synchronously
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      );
+                      ref.read(playlistProvider.notifier).refreshPlaylists();
+                    },
                   ),
                   PopupMenuItem(
                     value: 'add-tracks',

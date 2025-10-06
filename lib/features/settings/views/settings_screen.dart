@@ -27,30 +27,30 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
         padding: const EdgeInsets.all(16),
         children: [
           // Theme Settings
-          _buildSectionHeader('Appearance'),
-          Card(
-            color: Colors.grey[900]?.withValues(alpha: 0.3),
-            child: Column(
-              children: [
-                ListTile(
-                  title: const Text(
-                    'Theme Mode',
-                    style: TextStyle(color: Colors.white70),
-                  ),
-                  subtitle: Text(
-                    settings.themeMode ?? 'system',
-                    style: const TextStyle(color: Colors.grey),
-                  ),
-                  trailing: const Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.grey,
-                  ),
-                  onTap: () => _showThemeModeDialog(),
-                ),
-              ],
-            ),
-          ),
-          spacer(h: 10.0),
+          // _buildSectionHeader('Appearance'),
+          // Card(
+          //   color: Colors.grey[900]?.withValues(alpha: 0.3),
+          //   child: Column(
+          //     children: [
+          //       ListTile(
+          //         title: const Text(
+          //           'Theme Mode',
+          //           style: TextStyle(color: Colors.white70),
+          //         ),
+          //         subtitle: Text(
+          //           settings.themeMode ?? 'system',
+          //           style: const TextStyle(color: Colors.grey),
+          //         ),
+          //         trailing: const Icon(
+          //           Icons.arrow_forward_ios,
+          //           color: Colors.grey,
+          //         ),
+          //         onTap: () => _showThemeModeDialog(),
+          //       ),
+          //     ],
+          //   ),
+          // ),
+          // spacer(h: 10.0),
 
           // Playback Settings
           _buildSectionHeader('Playback'),
@@ -158,7 +158,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     style: TextStyle(color: Colors.white70),
                   ),
                   subtitle: const Text(
-                    'A music player with timer functionality',
+                    'A music player with extended play, pause and music change timer functionality.',
                     style: TextStyle(color: Colors.grey),
                   ),
                 ),
@@ -248,7 +248,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: Colors.grey[900]?.withValues(alpha: 0.3),
+        backgroundColor: Colors.grey[900],
         title: const Text(
           'Clear All Data',
           style: TextStyle(color: Colors.red),
@@ -264,7 +264,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           ),
           TextButton(
             onPressed: () {
-              // TODO: Implement clear all data functionality
+              ref.read(settingsProvider.notifier).clearAllData();
               Navigator.pop(context);
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(

@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart';
 import 'package:timed_app/features/playlist/providers/playlist_provider.dart';
 import 'package:timed_app/features/player/providers/player_provider.dart';
-import 'package:timed_app/features/playlist/services/file_services.dart';
+import 'package:timed_app/core/services/file_services.dart';
 import 'package:uuid/uuid.dart';
 import 'package:timed_app/commons/widgets/spacer.dart';
 import 'package:timed_app/data/models/playlist.dart';
@@ -407,7 +407,11 @@ class MusicListItem extends ConsumerWidget {
                 ),
               ),
               IconButton(
-                icon: const Icon(Icons.delete, color: Colors.red),
+                icon: const Icon(
+                  Icons.delete_outlined,
+                  color: Colors.red,
+                  size: 20.0,
+                ),
                 onPressed: onDelete,
               ),
             ],

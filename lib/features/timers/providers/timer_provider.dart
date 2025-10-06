@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:timed_app/core/services/timer_service.dart';
-import 'package:timed_app/core/services/persistence_service.dart';
+import 'package:timed_app/core/services/db_service.dart';
 import 'package:timed_app/data/models/player_timer.dart';
 import 'package:timed_app/data/models/track_timer.dart';
 

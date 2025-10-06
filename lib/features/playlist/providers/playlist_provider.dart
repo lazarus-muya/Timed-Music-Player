@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:timed_app/data/models/playlist.dart';
-import 'package:timed_app/features/playlist/services/file_services.dart';
+import 'package:timed_app/core/services/file_services.dart';
 import 'package:timed_app/commons/providers/shared_providers.dart';
 
 final playlistServiceProvider = Provider<PlaylistFileService>((ref) {

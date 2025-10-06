@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'dart:math' as math;
 import 'package:timed_app/commons/widgets/spacer.dart';
 import 'package:timed_app/features/player/providers/player_provider.dart';
 import 'package:timed_app/commons/logic/player_state.dart';
@@ -11,7 +12,37 @@ class NowPlayingScreen extends ConsumerStatefulWidget {
   ConsumerState<NowPlayingScreen> createState() => _NowPlayingScreenState();
 }
 
-class _NowPlayingScreenState extends ConsumerState<NowPlayingScreen> {
+class _NowPlayingScreenState extends ConsumerState<NowPlayingScreen>
+    with TickerProviderStateMixin {
+  
+  AnimationController? _animationController;
+  
+  @override
+  void initState() {
+    super.initState();
+    // Create local animation controller
+    _animationController = AnimationController(
+      duration: const Duration(seconds: 3),
+      vsync: this,
+    );
+  }
+
+  void _updateRotation(PlayerState playerState) {
+    if (_animationController == null) return;
+    
+    if (playerState == PlayerState.playing) {
+      _animationController!.repeat();
+    } else {
+      _animationController!.stop();
+    }
+  }
+
+  @override
+  void dispose() {
+    _animationController?.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final currentTrack = ref.watch(currentTrackProvider);
@@ -20,6 +51,14 @@ class _NowPlayingScreenState extends ConsumerState<NowPlayingScreen> {
     final position = ref.watch(positionProvider);
     final cycleMode = ref.watch(playerCycleProvider);
     final isShuffled = ref.watch(isShuffledProvider);
+    final playerState = ref.watch(playerStateProvider);
+    
+    // Update animation based on current player state
+    playerState.when(
+      data: (state) => _updateRotation(state),
+      loading: () {},
+      error: (_, __) {},
+    );
 
     return Scaffold(
       backgroundColor: Colors.black,
@@ -36,7 +75,7 @@ class _NowPlayingScreenState extends ConsumerState<NowPlayingScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Album Art Placeholder
+                // Album Art Placeholder with Rotation
                 Container(
                   width: MediaQuery.of(context).size.width * 0.7,
                   height: MediaQuery.of(context).size.width * 0.7,
@@ -51,23 +90,49 @@ class _NowPlayingScreenState extends ConsumerState<NowPlayingScreen> {
                     color: Colors.black38,
                     shape: BoxShape.circle,
                   ),
-                  child: Image.asset(
-                    'assets/images/disc.png',
-                    fit: BoxFit.cover,
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        decoration: BoxDecoration(
-                          color: Colors.grey[800],
-                          shape: BoxShape.circle,
+                  child: _animationController != null
+                      ? AnimatedBuilder(
+                          animation: _animationController!,
+                          builder: (context, child) {
+                            return Transform.rotate(
+                              angle: _animationController!.value * 2 * math.pi,
+                              child: Image.asset(
+                                'assets/images/disc.png',
+                                fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Container(
+                                    decoration: BoxDecoration(
+                                      color: Colors.grey[800],
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(
+                                      Icons.music_note,
+                                      size: 100,
+                                      color: Colors.white,
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        )
+                      : Image.asset(
+                          'assets/images/disc.png',
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Container(
+                              decoration: BoxDecoration(
+                                color: Colors.grey[800],
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(
+                                Icons.music_note,
+                                size: 100,
+                                color: Colors.white,
+                              ),
+                            );
+                          },
                         ),
-                        child: const Icon(
-                          Icons.music_note,
-                          size: 100,
-                          color: Colors.white,
-                        ),
-                      );
-                    },
-                  ),
                 ),
                 const SizedBox(height: 30),
 

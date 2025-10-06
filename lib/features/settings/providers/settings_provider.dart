@@ -1,6 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:timed_app/core/services/persistence_service.dart';
+import 'package:timed_app/core/services/db_service.dart';
 import 'package:timed_app/data/models/app_settings.dart';
+
+import '../../../commons/providers/shared_providers.dart';
+import '../../playlist/providers/playlist_provider.dart';
+import '../../timers/providers/timer_provider.dart';
+import '../../player/providers/player_provider.dart';
 
 final persistenceServiceProvider = Provider<PersistenceService>((ref) {
   return PersistenceService();
@@ -55,6 +60,37 @@ class SettingsNotifier extends Notifier<AppSettings> {
 
   Future<void> refreshSettings() async {
     await _loadSettings();
+  }
+
+  Future<void> clearAllData() async {
+    // Stop music playback
+    final audioService = ref.read(audioServiceProvider);
+    await audioService.stop();
+    
+    // Clear database
+    final persistenceService = ref.read(persistenceServiceProvider);
+    await persistenceService.clearAllData();
+    
+    // Cancel all active timers
+    final timerService = ref.read(timerServiceProvider);
+    timerService.cancelAllTimers();
+    
+    // Reset playlist providers
+    ref.invalidate(playlistProvider);
+    ref.read(currentPlaylistProviderIndex.notifier).state = 0;
+    ref.read(currentPlaylist.notifier).state = null;
+    
+    // Reset timer providers
+    ref.read(playerTimerProvider.notifier).state = [];
+    ref.read(trackTimerProvider.notifier).state = [];
+    ref.read(timerPauseStateProvider.notifier).state = TimerPauseState();
+    
+    // Reset shared providers
+    ref.read(currentMusicPosition.notifier).state = 0.0;
+    ref.read(currentNavItemIndexProvider.notifier).state = 0;
+    
+    // Reset settings to default
+    state = AppSettings();
   }
 
   String get themeMode => state.themeMode ?? 'system';

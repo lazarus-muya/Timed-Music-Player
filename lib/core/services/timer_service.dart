@@ -4,7 +4,7 @@ import 'package:timed_app/data/models/player_timer.dart';
 import 'package:timed_app/data/models/track_timer.dart';
 import 'package:timed_app/data/models/playlist.dart';
 import 'package:timed_app/core/services/audio_service.dart';
-import 'package:timed_app/core/services/persistence_service.dart';
+import 'package:timed_app/core/services/db_service.dart';
 import 'package:timed_app/commons/logic/player_state.dart';
 
 class TimerService {

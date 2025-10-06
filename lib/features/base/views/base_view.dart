@@ -39,7 +39,9 @@ class _BaseViewState extends ConsumerState<BaseView> {
             ],
           ),
         ),
-        FooterActions(),
+        ref.watch(currentNavItemIndexProvider) == 2
+            ? SizedBox.shrink()
+            : const FooterActions(),
       ],
     );
   }

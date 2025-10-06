@@ -10,7 +10,7 @@ class DiscAnimationNotifier extends Notifier<AnimationController?> {
   }
 
   void initialize(TickerProvider vsync) {
-    if (state != null) return; // Already initialized
+    if (state != null) return; // Already initialized and working
     
     final controller = AnimationController(
       duration: const Duration(seconds: 3), // 3 seconds per full rotation
@@ -32,10 +32,19 @@ class DiscAnimationNotifier extends Notifier<AnimationController?> {
   void _updateRotation(PlayerState playerState) {
     if (state == null) return;
     
-    if (playerState == PlayerState.playing) {
-      state!.repeat(); // This will continuously repeat the 0 to 2π animation
-    } else {
-      state!.stop();
+    try {
+      if (playerState == PlayerState.playing) {
+        state!.repeat(); // This will continuously repeat the 0 to 2π animation
+      } else {
+        state!.stop();
+      }
+    } catch (e) {
+      // Only reset state if the controller is actually disposed
+      // Don't reset for other types of errors
+      if (e.toString().contains('disposed') || e.toString().contains('defunct')) {
+        state = null;
+      }
+      // For other errors, just ignore them to avoid breaking the animation
     }
   }
 

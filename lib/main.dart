@@ -7,7 +7,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:timed_app/core/config/dark_theme.dart';
 import 'package:timed_app/data/models/app_settings.dart';
 import 'package:timed_app/features/base/views/base_view.dart';
-import 'package:timed_app/core/services/persistence_service.dart';
+import 'package:timed_app/core/services/db_service.dart';
 import 'package:timed_app/core/services/timer_service.dart';
 import 'package:timed_app/commons/widgets/timer_listener.dart';
 import 'package:window_manager/window_manager.dart';

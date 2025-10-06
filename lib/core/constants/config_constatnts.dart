@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 
+const APP_NAME = 'Timed Music Player';
 const SETTINGS_DB_KEY = 'app-settings';
 const APP_SETTINGS_ID = 'app-settings-id';
 

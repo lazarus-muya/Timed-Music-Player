@@ -113,11 +113,11 @@ openssl req -new -key timedplayerkey.key -out timedplayercsr.csr -config "C:\Pro
 - Country Name: `QA`
 - State or Province Name: `Doha`
 - Locality Name: `Doha`
-- Organization Name: `Open Softwares`
+- Organization Name: `<Organization>`
 - Organizational Unit Name: `Timed Player`
-- Common Name: `Lazarus Muya`
-- Challenge Password: `TimedPlayer`
-- Optional Company Name: `Open Softwares`
+- Common Name: `<YOYR SUBJECT>`
+- Challenge Password: `TimedPlayer` <!-- Your password -->
+- Optional Company Name: `<Company>`
 
 #### 3. Generate Signed Certificate
 
@@ -137,13 +137,13 @@ Password: `TimedPlayer`
 
 ```powershell
 $pwd = ConvertTo-SecureString -String "TimedPlayer" -Force -AsPlainText
-Import-PfxCertificate -FilePath "C:\Users\dev\Documents\projects\flutter\timed_app\TIMEDPLAYERCERTPFX.pfx" -CertStoreLocation "Cert:\LocalMachine\Root" -Password $pwd
+Import-PfxCertificate -FilePath "<YOUR PATH>\TIMEDPLAYERCERTPFX.pfx" -CertStoreLocation "Cert:\LocalMachine\Root" -Password $pwd
 ```
 
 #### 6. Sign the Application
 
 ```bash
-signtool sign /f "C:\Users\dev\Documents\projects\flutter\timed_app\TIMEDPLAYERCERTPFX.pfx" /p "TimedPlayer" /fd SHA256 /tr http://timestamp.digicert.com /td SHA256 "C:\Users\dev\Documents\projects\flutter\timed_app\build\windows\x64\runner\Release\TimedPlayer.exe"
+signtool sign /f "<YOUR PATH>\TIMEDPLAYERCERTPFX.pfx" /p "TimedPlayer" /fd SHA256 /tr http://timestamp.digicert.com /td SHA256 "<YOUR PATH>\build\windows\x64\runner\Release\TimedPlayer.exe"
 ```
 
 ## Installer Creation
@@ -152,7 +152,7 @@ The project includes an Inno Setup script (`build_script.iss`) for creating a Wi
 
 ### Installer Features
 
-- **Application Info**: Timed Player v1.0.0 by Lazarus Muya
+- **Application Info**: Timed Player v1.0.0
 - **Installation Directory**: `Program Files\TimedPlayer`
 - **Desktop Shortcut**: Creates desktop shortcut for easy access
 - **Start Menu Entry**: Adds application to Start Menu
