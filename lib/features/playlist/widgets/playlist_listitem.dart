@@ -1,0 +1,105 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path/path.dart';
+import 'package:timed_app/core/constants/constatnts.dart';
+import 'package:timed_app/features/playlist/providers/playlist_provider.dart';
+import '../../../data/models/playlist.dart';
+import '../../../data/models/track.dart';
+
+class PlaylistListItem extends ConsumerWidget {
+  const PlaylistListItem({
+    super.key,
+    required this.isSelected,
+    this.height,
+    this.playlist,
+    this.onTap,
+  });
+
+  final bool isSelected;
+  final double? height;
+  final Playlist? playlist;
+  final VoidCallback? onTap;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Material(
+      color: isSelected ? Colors.black : Colors.transparent,
+      child: InkWell(
+        onTap: onTap ?? () {},
+        child: Ink(
+          height: height ?? 45.0,
+          width: double.infinity,
+          padding: EdgeInsets.only(left: 10.0),
+          decoration: BoxDecoration(
+            border: isSelected
+                ? Border(left: BorderSide(color: Colors.orange, width: 4))
+                : Border(left: BorderSide(color: Colors.transparent, width: 4)),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                playlist!.name,
+                style: TextStyle(color: Colors.white60, fontSize: 14.0),
+                overflow: TextOverflow.ellipsis,
+              ),
+              // spacer(w: 10.0),
+              const Spacer(),
+              PopupMenuButton(
+                padding: EdgeInsets.zero,
+                iconColor: Colors.white60,
+                itemBuilder: (context) => [
+                  PopupMenuItem(
+                    value: 'Rename',
+                    height: 40.0,
+                    child: Text('Rename'),
+                  ),
+                  PopupMenuItem(
+                    value: 'add-tracks',
+                    height: 40.0,
+                    onTap: () async {
+                      final playlistService = ref.read(playlistServiceProvider);
+                      final files = await playlistService.getLocalMusic();
+                      if (files.isEmpty) return;
+                      final tracks = files
+                          .map(
+                            (path) => Track(
+                              id: uid.v4(),
+                              path: path!,
+                              title: basename(path),
+                            ),
+                          )
+                          .toList();
+
+                      // Add tracks to the specific playlist that was clicked
+                      await playlistService.addTracksToPlaylist(
+                        playlist!.id,
+                        tracks.map((e) => e.path).toList(),
+                      );
+
+                      // Refresh playlists to update the UI
+                      ref.read(playlistProvider.notifier).refreshPlaylists();
+                    },
+                    child: Text('Add Tracks'),
+                  ),
+                  PopupMenuItem(
+                    value: 'delete',
+                    height: 40.0,
+                    onTap: () async {
+                      final playlistService = ref.read(playlistServiceProvider);
+                      await playlistService.deletePlaylist(playlist!.id);
+                      ref
+                          .read(playlistProvider.notifier)
+                          .removePlaylist(playlist!);
+                    },
+                    child: Text('Delete'),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

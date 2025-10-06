@@ -1,0 +1,24 @@
+# ninja log v6
+5	80	7812180764284745	nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-mkdir	197f2529f6f07021
+5	80	7812180764284745	C:/Users/dev/Documents/projects/flutter/timed_app/windows/out/build/x64-Debug/_deps/nuget-subbuild/nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-mkdir	197f2529f6f07021
+81	1083	7812180774326849	nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-download	8562bf17e3b13e81
+81	1083	7812180774326849	C:/Users/dev/Documents/projects/flutter/timed_app/windows/out/build/x64-Debug/_deps/nuget-subbuild/nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-download	8562bf17e3b13e81
+1084	1141	7812180774787807	nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-update	df0070bab4295c2b
+1084	1141	7812180774787807	C:/Users/dev/Documents/projects/flutter/timed_app/windows/out/build/x64-Debug/_deps/nuget-subbuild/nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-update	df0070bab4295c2b
+1142	1197	7812180775469119	nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-patch	ea392539b2fca6cb
+1142	1197	7812180775469119	C:/Users/dev/Documents/projects/flutter/timed_app/windows/out/build/x64-Debug/_deps/nuget-subbuild/nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-patch	ea392539b2fca6cb
+1198	1273	7812180776197473	nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-copyfile	9342a5a87ae2ece4
+1198	1273	7812180776197473	C:/Users/dev/Documents/projects/flutter/timed_app/windows/out/build/x64-Debug/_deps/nuget-src/nuget.exe	9342a5a87ae2ece4
+1198	1273	7812180776197473	C:/Users/dev/Documents/projects/flutter/timed_app/windows/out/build/x64-Debug/_deps/nuget-subbuild/nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-copyfile	9342a5a87ae2ece4
+1274	1329	7812180776640232	nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-configure	a961154e231a24f7
+1274	1329	7812180776640232	C:/Users/dev/Documents/projects/flutter/timed_app/windows/out/build/x64-Debug/_deps/nuget-subbuild/nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-configure	a961154e231a24f7
+1330	1387	7812180777315854	nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-build	dee55ef8511a0d89
+1330	1387	7812180777315854	C:/Users/dev/Documents/projects/flutter/timed_app/windows/out/build/x64-Debug/_deps/nuget-subbuild/nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-build	dee55ef8511a0d89
+1387	1444	7812180777897859	nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-install	80655990712acda9
+1387	1444	7812180777897859	C:/Users/dev/Documents/projects/flutter/timed_app/windows/out/build/x64-Debug/_deps/nuget-subbuild/nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-install	80655990712acda9
+1444	1500	7812180778489782	nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-test	193dd515850bf34a
+1444	1500	7812180778489782	C:/Users/dev/Documents/projects/flutter/timed_app/windows/out/build/x64-Debug/_deps/nuget-subbuild/nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-test	193dd515850bf34a
+1501	1578	7812180779262591	CMakeFiles/nuget-populate-complete	52ab8bc7b95e3628
+1501	1578	7812180779262591	nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-done	52ab8bc7b95e3628
+1501	1578	7812180779262591	C:/Users/dev/Documents/projects/flutter/timed_app/windows/out/build/x64-Debug/_deps/nuget-subbuild/CMakeFiles/nuget-populate-complete	52ab8bc7b95e3628
+1501	1578	7812180779262591	C:/Users/dev/Documents/projects/flutter/timed_app/windows/out/build/x64-Debug/_deps/nuget-subbuild/nuget-populate-prefix/src/nuget-populate-stamp/nuget-populate-done	52ab8bc7b95e3628
