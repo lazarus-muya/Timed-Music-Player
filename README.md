@@ -4,7 +4,7 @@ A music player application with advanced timer functionality. Timed Player allow
 
 **Note** This code was tested on Windows 11, but it should work on other desktop platforms with little or no modification.
 
-<img src="assets/images/image.png" width="70%" />
+<img src="assets/images/image.png" width="100%" />
 
 ## Features
 
