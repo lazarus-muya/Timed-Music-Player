@@ -9,10 +9,10 @@ A music player application with advanced timer functionality. Timed Player allow
 ## Features
 
 - **Music Playback**: Play audio files.
-- **Timer Management**: Create and manage player timers and track timers
+- **Timer Management**: Create and manage player and track timers
 - **Playlist Support**: Organize your music into playlists.
 - **Scheduled Playback**: Set timers to automatically start/stop music at specific times.
-- **Modern UI**: Dark-themed and user friendly interface.
+- **Modern UI**: Dark-Themed and user friendly interface.
 - **Data Persistence**: All settings, playlists, and timers are saved locally.
 
 **Note:** The database does not store any music files; it only contains references to their local file paths.
@@ -21,8 +21,8 @@ A music player application with advanced timer functionality. Timed Player allow
 
 ```
 lib/
-├── commons/                 # Shared utilities and widgets
-│   ├── extensions/         # App-wide extensions
+├── commons/               # Shared utilities and widgets
+│   ├── extensions/        # App-wide extensions
 │   ├── logic/             # Shared business logic
 │   ├── providers/         # Global providers
 │   └── widgets/           # Reusable UI components
@@ -191,6 +191,7 @@ A pre-built installer is available in the `Installer/` directory:
 - `hive`: Local data storage
 - `window_manager`: Windows-specific window management
 - `file_picker`: File selection for playlists
+- `path_provider`: Provides database files location
 
 ### Development Dependencies
 
@@ -234,7 +235,7 @@ Copyright (c) 2025 Lazarus Muya
 
 ## Support
 
-For issues, questions, or contributions, please refer to the project repository or contact the development team.
+For issues, questions, or contributions, please refer to the project repository or contact developer.
 
 ---
 

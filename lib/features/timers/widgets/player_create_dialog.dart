@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:timed_app/commons/widgets/spacer.dart';
 import 'package:timed_app/core/constants/constatnts.dart';
 import 'package:timed_app/data/models/player_timer.dart';
 import 'package:timed_app/features/timers/providers/timer_provider.dart';
@@ -46,25 +47,57 @@ class PlayerCreateDialog extends ConsumerWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              ListTile(
-                title: const Text(
-                  'Time',
-                  style: TextStyle(color: Colors.white),
-                ),
-                subtitle: Text(
-                  selectedTime.format(context),
-                  style: const TextStyle(color: Colors.deepOrange),
-                ),
-                onTap: () async {
-                  final time = await showTimePicker(
-                    context: context,
-                    initialTime: selectedTime,
-                  );
-                  if (time != null) {
-                    setState(() => selectedTime = time);
-                  }
-                },
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                spacing: 0.0,
+                children: [
+                  ElevatedButton(
+                    onPressed: () async {
+                      final time = await showTimePicker(
+                        context: context,
+                        initialTime: selectedTime,
+                      );
+                      if (time != null) {
+                        setState(() => selectedTime = time);
+                      }
+                    },
+                    child: Text('Select Pause Time'),
+                  ),
+                  Chip(
+                    backgroundColor: Colors.black,
+                    side: const BorderSide(color: Colors.transparent),
+                    label: Text(
+                      selectedTime.format(context),
+                      style: const TextStyle(
+                        color: Colors.deepOrange,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
               ),
+              spacer(h: 10.0),
+              // ListTile(
+              //   title: const Text(
+              //     'Time',
+              //     style: TextStyle(color: Colors.white),
+              //   ),
+              //   subtitle: Text(
+              //     selectedTime.format(context),
+              //     style: const TextStyle(color: Colors.deepOrange),
+              //   ),
+              //   onTap: () async {
+              // final time = await showTimePicker(
+              //   context: context,
+              //   initialTime: selectedTime,
+              // );
+              // if (time != null) {
+              //   setState(() => selectedTime = time);
+              // }
+              //   },
+              // ),
               TextField(
                 controller: durationController,
                 style: const TextStyle(color: Colors.white),

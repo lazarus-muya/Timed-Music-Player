@@ -31,7 +31,8 @@ Future<void> main() async {
   });
 
   final Directory appDocDir = await getApplicationSupportDirectory();
-  final String hivePath = '${appDocDir.path}\\hive_data';
+  // final String hivePath = '${appDocDir.path}\\hive_data';
+  final String hivePath = '${appDocDir.path}\\hive_dev_data';
   await Hive.initFlutter(hivePath);
   Hive.registerAdapter(AppSettingsAdapter());
 
