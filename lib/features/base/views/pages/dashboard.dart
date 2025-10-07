@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:timed_app/commons/providers/shared_providers.dart';
+import 'package:timed_app/core/utils/extensions.dart';
 import 'dart:math' as math;
 
 import '../../../../commons/logic/player_state.dart';
+import '../../../../core/config/light_theme.dart';
 import '../../../../features/player/providers/player_provider.dart';
 import '../../../../features/player/providers/disc_animation_provider.dart';
 import '../../../../features/timers/providers/timer_provider.dart';
@@ -16,7 +19,6 @@ class Dashboard extends ConsumerStatefulWidget {
 
 class _DashboardState extends ConsumerState<Dashboard>
     with TickerProviderStateMixin {
-
   @override
   void initState() {
     super.initState();
@@ -33,7 +35,7 @@ class _DashboardState extends ConsumerState<Dashboard>
     final animationController = ref.watch(discAnimationProvider);
 
     return Material(
-      color: Colors.black,
+      color: context.theme.scaffoldBackgroundColor,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -53,13 +55,13 @@ class _DashboardState extends ConsumerState<Dashboard>
                         width: 400,
                         height: 400,
                         decoration: BoxDecoration(
-                          color: Colors.grey[800],
+                          // color: context.theme.iconTheme.color,
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.music_note,
                           size: 100,
-                          color: Colors.white,
+                          color: context.theme.iconTheme.color,
                         ),
                       );
                     },
@@ -78,13 +80,13 @@ class _DashboardState extends ConsumerState<Dashboard>
                   width: 400,
                   height: 400,
                   decoration: BoxDecoration(
-                    color: Colors.grey[800],
+                    color: context.theme.iconTheme.color,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
+                  child: Icon(
                     Icons.music_note,
                     size: 100,
-                    color: Colors.white,
+                    color: context.theme.iconTheme.color,
                   ),
                 );
               },
@@ -100,20 +102,21 @@ class _DashboardState extends ConsumerState<Dashboard>
           ),
           const SizedBox(height: 10),
           // Timer pause status
-          if (timerPauseState.isPaused && timerPauseState.remainingDuration != null) ...[
+          if (timerPauseState.isPaused &&
+              timerPauseState.remainingDuration != null) ...[
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               decoration: BoxDecoration(
-                color: Colors.orange.withValues(alpha: 0.2),
+                color: context.theme.accentColor.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(20),
-                border: Border.all(color: Colors.orange, width: 1),
+                border: Border.all(color: context.theme.accentColor, width: 1),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.pause_circle_filled,
-                    color: Colors.orange,
+                    color: context.theme.accentColor,
                     size: 20,
                   ),
                   const SizedBox(width: 8),
@@ -121,8 +124,8 @@ class _DashboardState extends ConsumerState<Dashboard>
                     timerPauseState.timerName != null
                         ? 'Music changed - playing ${timerPauseState.timerName} for ${_formatDuration(timerPauseState.remainingDuration ?? Duration.zero)}'
                         : 'Music paused for ${_formatDuration(timerPauseState.remainingDuration ?? Duration.zero)}',
-                    style: const TextStyle(
-                      color: Colors.orange,
+                    style: TextStyle(
+                      color: context.theme.accentColor,
                       fontWeight: FontWeight.w500,
                     ),
                   ),

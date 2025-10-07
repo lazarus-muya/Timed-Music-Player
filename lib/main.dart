@@ -1,17 +1,21 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
+import 'package:fluent_ui/fluent_ui.dart';
+// import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:timed_app/core/config/dark_theme.dart';
+import 'package:timed_app/core/config/light_theme.dart';
 import 'package:timed_app/data/models/app_settings.dart';
 import 'package:timed_app/features/base/views/base_view.dart';
 import 'package:timed_app/core/services/db_service.dart';
 import 'package:timed_app/core/services/timer_service.dart';
 import 'package:timed_app/commons/widgets/timer_listener.dart';
+import 'package:timed_app/features/settings/providers/settings_provider.dart';
 import 'package:window_manager/window_manager.dart';
 
+import 'commons/providers/shared_providers.dart';
 import 'core/constants/config_constatnts.dart';
 
 Future<void> main() async {
@@ -22,7 +26,6 @@ Future<void> main() async {
     size: WINDOW_MIN_SIZE,
     minimumSize: WINDOW_MIN_SIZE,
     title: 'Timed Music Player',
-    // center: true,
     backgroundColor: Colors.transparent,
   );
   windowManager.waitUntilReadyToShow(windowOptions, () async {
@@ -59,16 +62,19 @@ Future<void> main() async {
   runApp(const ProviderScope(child: MainApp()));
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends ConsumerWidget {
   const MainApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context, WidgetRef ref) {
+    return FluentApp(
       debugShowCheckedModeBanner: false,
       title: 'Timed Music Player',
-      theme: darkTheme,
-      home: Scaffold(body: TimerListener(child: BaseView())),
+      // darkTheme: darkTheme,
+      theme: ref.watch(settingsProvider).themeMode == 'dark' ? darkTheme : lightTheme,
+      home: TimerListener(child: BaseView()),
     );
   }
 }
+
+// Scaffold(body: TimerListener(child: BaseView()))

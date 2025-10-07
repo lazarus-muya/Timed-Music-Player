@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:timed_app/core/utils/extensions.dart';
 import 'package:timed_app/features/timers/widgets/player_create_dialog.dart';
 import 'package:timed_app/features/timers/widgets/track_timer_create_dialog.dart';
 
@@ -15,7 +16,10 @@ class TimerManagerScreen extends ConsumerStatefulWidget {
 
 class _TimerManagerScreenState extends ConsumerState<TimerManagerScreen>
     with SingleTickerProviderStateMixin {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late TabController _tabController;
+  int _currentTabIndex = 0;
+  final List<Widget> _tabs = [PlayerTimersTab(), TrackTimersTab()];
 
   @override
   void initState() {
@@ -32,38 +36,99 @@ class _TimerManagerScreenState extends ConsumerState<TimerManagerScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: const Text(
+        backgroundColor: context.theme.scaffoldBackgroundColor,
+        title: Text(
           'Timer Manager',
-          style: TextStyle(color: Colors.white),
         ),
-        bottom: TabBar(
-          controller: _tabController,
-          labelColor: Colors.deepOrange,
-          unselectedLabelColor: Colors.grey,
-          indicatorColor: Colors.deepOrange,
-          tabs: const [
-            Tab(text: 'Player Timers'),
-            Tab(text: 'Track Timers'),
+        // bottom: TabBar(
+        //   controller: _tabController,
+        //   labelColor: context.theme.accentColor,
+        //   unselectedLabelColor: context.theme.iconTheme.color,
+        //   indicatorColor: context.theme.accentColor,
+        //   tabs: const [
+        //     Tab(text: 'Player Timers',),
+        //     Tab(text: 'Track Timers'),
+        //   ],
+        // ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: Column(
+          children: [
+            SizedBox(
+              width: double.infinity,
+              height: 50.0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                spacing: 10.0,
+                children: [
+                  SizedBox(
+                    height: 40.0,
+                    child: ElevatedButton.icon(
+                      onPressed: () => setState(() => _currentTabIndex = 0),
+                      label: Text(
+                        'Music Pause Timers',
+                        style: TextStyle(
+                          color: _currentTabIndex == 0
+                              ? context.theme.scaffoldBackgroundColor
+                              : context.theme.iconTheme.color,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(3.0),
+                        ),
+                        backgroundColor: _currentTabIndex == 0
+                            ? context.theme.accentColor
+                            : null,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 40.0,
+                    child: ElevatedButton.icon(
+                      onPressed: () => setState(() => _currentTabIndex = 1),
+                      label: Text(
+                        'Track Change Timers',
+                        style: TextStyle(
+                          color: _currentTabIndex == 1
+                              ? context.theme.scaffoldBackgroundColor
+                              : context.theme.iconTheme.color,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(3.0),
+                        ),
+                        backgroundColor: _currentTabIndex == 1
+                            ? context.theme.accentColor
+                            : null,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Expanded(child: _tabs[_currentTabIndex]),
           ],
         ),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [PlayerTimersTab(), TrackTimersTab()],
-      ),
+      // body: TabBarView(
+      //   controller: _tabController,
+      //   children: [PlayerTimersTab(), TrackTimersTab()],
+      // ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if (_tabController.index == 0) {
+          if (_currentTabIndex == 0) {
             _showCreatePlayerTimerDialog();
           } else {
             _showCreateTrackTimerDialog();
           }
         },
-        backgroundColor: Colors.deepOrange,
-        child: const Icon(Icons.add, color: Colors.white),
+        backgroundColor: context.theme.accentColor,
+        child: Icon(Icons.add, color: context.theme.iconTheme.color),
       ),
     );
   }
@@ -79,6 +144,7 @@ class _TimerManagerScreenState extends ConsumerState<TimerManagerScreen>
         nameController: nameController,
         durationController: durationController,
         selectedTime: selectedTime,
+        formKey: _formKey,
       ),
     );
   }

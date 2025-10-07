@@ -16,72 +16,82 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final settings = ref.watch(settingsProvider);
+    final cardShape = BeveledRectangleBorder(
+      side: BorderSide.none,
+      borderRadius: BorderRadius.circular(3.0),
+    );
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: const Text('Settings', style: TextStyle(color: Colors.white)),
+        backgroundColor: context.theme.scaffoldBackgroundColor,
+        surfaceTintColor: context.theme.scaffoldBackgroundColor,
+        title: Text(
+          'Settings',
+          style: TextStyle(color: context.theme.accentColor),
+        ),
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(horizontal: 5.0, vertical: 10.0),
         children: [
           // Theme Settings
-          // _buildSectionHeader('Appearance'),
-          // Card(
-          //   color: Colors.grey[900]?.withValues(alpha: 0.3),
-          //   child: Column(
-          //     children: [
-          //       ListTile(
-          //         title: const Text(
-          //           'Theme Mode',
-          //           style: TextStyle(color: Colors.white70),
-          //         ),
-          //         subtitle: Text(
-          //           settings.themeMode ?? 'system',
-          //           style: const TextStyle(color: Colors.grey),
-          //         ),
-          //         trailing: const Icon(
-          //           Icons.arrow_forward_ios,
-          //           color: Colors.grey,
-          //         ),
-          //         onTap: () => _showThemeModeDialog(),
-          //       ),
-          //     ],
-          //   ),
-          // ),
-          // spacer(h: 10.0),
+          _buildSectionHeader('Appearance'),
+          Card(
+            color: context.theme.cardColor,
+            shape: cardShape,
+            child: Column(
+              children: [
+                ListTile(
+                  title: Text(
+                    'Theme Mode',
+                    style: TextStyle(color: context.theme.iconTheme.color),
+                  ),
+                  subtitle: Text(
+                    settings.themeMode ?? 'light',
+                    style: TextStyle(color: context.theme.iconTheme.color),
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: context.theme.iconTheme.color,
+                  ),
+                  onTap: () => _showThemeModeDialog(),
+                ),
+              ],
+            ),
+          ),
+          spacer(h: 10.0),
 
           // Playback Settings
           _buildSectionHeader('Playback'),
           Card(
-            color: Colors.grey[900]?.withValues(alpha: 0.3),
+            color: context.theme.cardColor,
+            shape: cardShape,
             child: Column(
               children: [
                 ListTile(
-                  title: const Text(
+                  title: Text(
                     'Repeat Mode',
-                    style: TextStyle(color: Colors.white70),
+                    style: TextStyle(color: context.theme.iconTheme.color),
                   ),
                   subtitle: Text(
                     settings.repeatMode ?? 'none',
-                    style: const TextStyle(color: Colors.grey),
+                    style: TextStyle(color: context.theme.iconTheme.color),
                   ),
-                  trailing: const Icon(
+                  trailing: Icon(
                     Icons.arrow_forward_ios,
-                    color: Colors.grey,
+                    color: context.theme.iconTheme.color,
                   ),
                   onTap: () => _showRepeatModeDialog(),
                 ),
 
                 SwitchListTile(
-                  title: const Text(
+                  title: Text(
                     'Shuffle',
-                    style: TextStyle(color: Colors.white70),
+                    style: TextStyle(color: context.theme.iconTheme.color),
                   ),
-                  subtitle: const Text(
+                  subtitle: Text(
                     'Randomize track order',
-                    style: TextStyle(color: Colors.grey),
+                    style: TextStyle(color: context.theme.iconTheme.color),
                   ),
                   value: settings.shuffle ?? false,
                   onChanged: (value) {
@@ -89,23 +99,23 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                         .read(settingsProvider.notifier)
                         .updateShuffleMode(value);
                   },
-                  activeThumbColor: Colors.deepOrange,
+                  activeThumbColor: context.theme.accentColor,
                 ),
 
                 SwitchListTile(
-                  title: const Text(
+                  title: Text(
                     'Auto Play',
-                    style: TextStyle(color: Colors.white70),
+                    style: TextStyle(color: context.theme.iconTheme.color),
                   ),
-                  subtitle: const Text(
+                  subtitle: Text(
                     'Automatically start playback',
-                    style: TextStyle(color: Colors.grey),
+                    style: TextStyle(color: context.theme.iconTheme.color),
                   ),
                   value: settings.autoPlay ?? false,
                   onChanged: (value) {
                     ref.read(settingsProvider.notifier).updateAutoPlay(value);
                   },
-                  activeThumbColor: Colors.deepOrange,
+                  activeThumbColor: context.theme.accentColor,
                 ),
               ],
             ),
@@ -115,7 +125,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           // Data Management
           _buildSectionHeader('Data Management'),
           Card(
-            color: Colors.grey[900]?.withValues(alpha: 0.3),
+            color: context.theme.cardColor,
+            shape: cardShape,
             child: Column(
               children: [
                 ListTile(
@@ -123,9 +134,9 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                     'Clear All Data',
                     style: TextStyle(color: Colors.red),
                   ),
-                  subtitle: const Text(
+                  subtitle: Text(
                     'Remove all playlists, timers, and settings',
-                    style: TextStyle(color: Colors.grey),
+                    style: TextStyle(color: context.theme.iconTheme.color),
                   ),
                   leading: const Icon(Icons.delete_forever, color: Colors.red),
                   onTap: () => _showClearDataDialog(),
@@ -138,28 +149,29 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
           // About
           _buildSectionHeader('About'),
           Card(
-            color: Colors.grey[900]?.withValues(alpha: 0.3),
+            color: context.theme.cardColor,
+            shape: cardShape,
             child: Column(
               children: [
                 ListTile(
-                  title: const Text(
+                  title: Text(
                     'Version',
-                    style: TextStyle(color: Colors.white70),
+                    style: TextStyle(color: context.theme.iconTheme.color),
                   ),
-                  subtitle: const Text(
+                  subtitle: Text(
                     '1.0.0',
-                    style: TextStyle(color: Colors.grey),
+                    style: TextStyle(color: context.theme.iconTheme.color),
                   ),
                 ),
 
                 ListTile(
-                  title: const Text(
+                  title: Text(
                     'Timed Music Player',
-                    style: TextStyle(color: Colors.white70),
+                    style: TextStyle(color: context.theme.iconTheme.color),
                   ),
-                  subtitle: const Text(
+                  subtitle: Text(
                     'A music player with extended play, pause and music change timer functionality.',
-                    style: TextStyle(color: Colors.grey),
+                    style: TextStyle(color: context.theme.iconTheme.color),
                   ),
                 ),
               ],
@@ -175,8 +187,8 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
       padding: const EdgeInsets.symmetric(vertical: 8),
       child: Text(
         title,
-        style: const TextStyle(
-          color: Colors.white,
+        style: TextStyle(
+          color: context.theme.iconTheme.color,
           fontSize: 15,
           // fontWeight: FontWeight.bold,
         ),
@@ -188,19 +200,19 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: Colors.grey[900]?.withValues(alpha: 0.3),
-        title: const Text(
+        backgroundColor: context.theme.cardColor,
+        title: Text(
           'Select Theme Mode',
-          style: TextStyle(color: Colors.white70),
+          style: TextStyle(color: context.theme.iconTheme.color),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            for (final mode in ['system', 'light', 'dark'])
+            for (final mode in ['light', 'dark'])
               ListTile(
                 title: Text(
                   mode.capitalizeFirstLetter(),
-                  style: const TextStyle(color: Colors.white),
+                  style: TextStyle(color: context.theme.iconTheme.color),
                 ),
                 onTap: () {
                   ref.read(settingsProvider.notifier).updateThemeMode(mode);
@@ -217,10 +229,10 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: Colors.grey[900]?.withValues(alpha: 0.3),
-        title: const Text(
+        backgroundColor: context.theme.cardColor,
+        title: Text(
           'Select Repeat Mode',
-          style: TextStyle(color: Colors.white70),
+          style: TextStyle(color: context.theme.iconTheme.color),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -231,7 +243,7 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
                   mode == 'repeatOne'
                       ? 'Repeat One'
                       : mode.capitalizeFirstLetter(),
-                  style: const TextStyle(color: Colors.white),
+                  style: TextStyle(color: context.theme.iconTheme.color),
                 ),
                 onTap: () {
                   ref.read(settingsProvider.notifier).updateRepeatMode(mode);
@@ -248,19 +260,22 @@ class _SettingsScreenState extends ConsumerState<SettingsScreen> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: Colors.grey[900],
+        backgroundColor: context.theme.iconTheme.color,
         title: const Text(
           'Clear All Data',
           style: TextStyle(color: Colors.red),
         ),
-        content: const Text(
+        content: Text(
           'This action cannot be undone. All playlists, timers, and settings will be permanently deleted.',
-          style: TextStyle(color: Colors.white70),
+          style: TextStyle(color: context.theme.iconTheme.color),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Cancel', style: TextStyle(color: Colors.grey)),
+            child: Text(
+              'Cancel',
+              style: TextStyle(color: context.theme.iconTheme.color),
+            ),
           ),
           TextButton(
             onPressed: () {

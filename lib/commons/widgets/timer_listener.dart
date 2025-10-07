@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:timed_app/core/utils/extensions.dart';
 import 'package:timed_app/features/timers/providers/timer_provider.dart';
 import 'dart:async';
 
@@ -35,14 +36,8 @@ class _TimerListenerState extends ConsumerState<TimerListener> {
           // Start countdown timer
           _startCountdownTimer(timer.duration);
 
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                'Player Timer "${timer.name}" triggered - Pausing playback',
-              ),
-              backgroundColor: Colors.orange,
-              duration: const Duration(seconds: 3),
-            ),
+          context.showToast(
+            message: 'Player Timer ${timer.name} triggered - Pausing playback',
           );
         },
         loading: () {},
@@ -59,20 +54,26 @@ class _TimerListenerState extends ConsumerState<TimerListener> {
               .read(timerPauseStateProvider.notifier)
               .startPause(
                 timer.name,
-                Duration(minutes: _calculateDurationInMinutes(timer.startTime, timer.endTime)),
+                Duration(
+                  minutes: _calculateDurationInMinutes(
+                    timer.startTime,
+                    timer.endTime,
+                  ),
+                ),
               );
 
           // Start countdown timer
-          _startCountdownTimer(Duration(minutes: _calculateDurationInMinutes(timer.startTime, timer.endTime)));
-
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(
-                'Track Timer "${timer.name}" triggered - Switching playlist',
+          _startCountdownTimer(
+            Duration(
+              minutes: _calculateDurationInMinutes(
+                timer.startTime,
+                timer.endTime,
               ),
-              backgroundColor: Colors.blue,
-              duration: const Duration(seconds: 3),
             ),
+          );
+
+          context.showToast(
+            message: 'Track Timer ${timer.name} triggered - Switching playlist',
           );
         },
         loading: () {},
@@ -106,7 +107,7 @@ class _TimerListenerState extends ConsumerState<TimerListener> {
   int _calculateDurationInMinutes(TimeOfDay startTime, TimeOfDay endTime) {
     final startMinutes = startTime.hour * 60 + startTime.minute;
     final endMinutes = endTime.hour * 60 + endTime.minute;
-    
+
     if (endMinutes > startMinutes) {
       return endMinutes - startMinutes;
     } else {

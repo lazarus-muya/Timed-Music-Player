@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'dart:math' as math;
 import 'package:timed_app/commons/widgets/spacer.dart';
+import 'package:timed_app/core/utils/extensions.dart';
 import 'package:timed_app/features/player/providers/player_provider.dart';
 import 'package:timed_app/commons/logic/player_state.dart';
 
@@ -14,9 +15,8 @@ class NowPlayingScreen extends ConsumerStatefulWidget {
 
 class _NowPlayingScreenState extends ConsumerState<NowPlayingScreen>
     with TickerProviderStateMixin {
-  
   AnimationController? _animationController;
-  
+
   @override
   void initState() {
     super.initState();
@@ -29,7 +29,7 @@ class _NowPlayingScreenState extends ConsumerState<NowPlayingScreen>
 
   void _updateRotation(PlayerState playerState) {
     if (_animationController == null) return;
-    
+
     if (playerState == PlayerState.playing) {
       _animationController!.repeat();
     } else {
@@ -52,7 +52,7 @@ class _NowPlayingScreenState extends ConsumerState<NowPlayingScreen>
     final cycleMode = ref.watch(playerCycleProvider);
     final isShuffled = ref.watch(isShuffledProvider);
     final playerState = ref.watch(playerStateProvider);
-    
+
     // Update animation based on current player state
     playerState.when(
       data: (state) => _updateRotation(state),
@@ -61,7 +61,7 @@ class _NowPlayingScreenState extends ConsumerState<NowPlayingScreen>
     );
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
       body: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(20),
@@ -87,7 +87,7 @@ class _NowPlayingScreenState extends ConsumerState<NowPlayingScreen>
                     minHeight: 200,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.black38,
+                    // color: context.theme.iconTheme.color,
                     shape: BoxShape.circle,
                   ),
                   child: _animationController != null
@@ -102,13 +102,13 @@ class _NowPlayingScreenState extends ConsumerState<NowPlayingScreen>
                                 errorBuilder: (context, error, stackTrace) {
                                   return Container(
                                     decoration: BoxDecoration(
-                                      color: Colors.grey[800],
+                                      // color: Colors.transparent,
                                       shape: BoxShape.circle,
                                     ),
-                                    child: const Icon(
+                                    child: Icon(
                                       Icons.music_note,
                                       size: 100,
-                                      color: Colors.white,
+                                      color: context.theme.iconTheme.color,
                                     ),
                                   );
                                 },
@@ -122,13 +122,13 @@ class _NowPlayingScreenState extends ConsumerState<NowPlayingScreen>
                           errorBuilder: (context, error, stackTrace) {
                             return Container(
                               decoration: BoxDecoration(
-                                color: Colors.grey[800],
+                                color: context.theme.iconTheme.color,
                                 shape: BoxShape.circle,
                               ),
-                              child: const Icon(
+                              child: Icon(
                                 Icons.music_note,
                                 size: 100,
-                                color: Colors.white,
+                                color: context.theme.iconTheme.color,
                               ),
                             );
                           },
@@ -143,8 +143,8 @@ class _NowPlayingScreenState extends ConsumerState<NowPlayingScreen>
                           children: [
                             Text(
                               track.title,
-                              style: const TextStyle(
-                                color: Colors.white70,
+                              style: TextStyle(
+                                color: context.theme.iconTheme.color,
                                 fontSize: 18,
                                 // fontWeight: FontWeight.bold,
                               ),
@@ -155,7 +155,8 @@ class _NowPlayingScreenState extends ConsumerState<NowPlayingScreen>
                               Text(
                                 track.artist!,
                                 style: TextStyle(
-                                  color: Colors.grey[400],
+                                  color: context.theme.iconTheme.color
+                                      ?.withValues(alpha: 0.5),
                                   fontSize: 18,
                                 ),
                                 textAlign: TextAlign.center,
@@ -178,8 +179,8 @@ class _NowPlayingScreenState extends ConsumerState<NowPlayingScreen>
                                 .read(playerNotifierProvider.notifier)
                                 .seekToProgress(value);
                           },
-                          activeColor: Colors.deepOrange,
-                          inactiveColor: Colors.grey[600],
+                          activeColor: context.theme.accentColor,
+                          inactiveColor: context.theme.iconTheme.color,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -192,11 +193,15 @@ class _NowPlayingScreenState extends ConsumerState<NowPlayingScreen>
                                           .round(),
                                 ),
                               ),
-                              style: TextStyle(color: Colors.grey[400]),
+                              style: TextStyle(
+                                color: context.theme.iconTheme.color,
+                              ),
                             ),
                             Text(
                               _formatDuration(duration),
-                              style: TextStyle(color: Colors.grey[400]),
+                              style: TextStyle(
+                                color: context.theme.iconTheme.color,
+                              ),
                             ),
                           ],
                         ),
@@ -224,10 +229,11 @@ class _NowPlayingScreenState extends ConsumerState<NowPlayingScreen>
                       icon: Icon(
                         Icons.shuffle,
                         color: isShuffled.when(
-                          data: (shuffled) =>
-                              shuffled ? Colors.deepOrange : Colors.grey[400],
-                          loading: () => Colors.grey[400],
-                          error: (_, __) => Colors.grey[400],
+                          data: (shuffled) => shuffled
+                              ? context.theme.accentColor
+                              : context.theme.iconTheme.color,
+                          loading: () => context.theme.iconTheme.color,
+                          error: (_, __) => context.theme.iconTheme.color,
                         ),
                         size: 30,
                       ),
@@ -238,9 +244,9 @@ class _NowPlayingScreenState extends ConsumerState<NowPlayingScreen>
                       onPressed: () {
                         ref.read(playerNotifierProvider.notifier).previous();
                       },
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.skip_previous,
-                        color: Colors.white,
+                        color: context.theme.iconTheme.color,
                         size: 40,
                       ),
                     ),
@@ -248,7 +254,7 @@ class _NowPlayingScreenState extends ConsumerState<NowPlayingScreen>
                     // Play/Pause Button
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.deepOrange,
+                        color: context.theme.accentColor,
                         shape: BoxShape.circle,
                       ),
                       child: IconButton(
@@ -280,7 +286,7 @@ class _NowPlayingScreenState extends ConsumerState<NowPlayingScreen>
                             loading: () => Icons.play_arrow,
                             error: (_, __) => Icons.play_arrow,
                           ),
-                          color: Colors.white,
+                          color: context.theme.iconTheme.color,
                           size: 40,
                         ),
                       ),
@@ -291,9 +297,9 @@ class _NowPlayingScreenState extends ConsumerState<NowPlayingScreen>
                       onPressed: () {
                         ref.read(playerNotifierProvider.notifier).next();
                       },
-                      icon: const Icon(
+                      icon: Icon(
                         Icons.skip_next,
-                        color: Colors.white,
+                        color: context.theme.iconTheme.color,
                         size: 40,
                       ),
                     ),
@@ -325,10 +331,10 @@ class _NowPlayingScreenState extends ConsumerState<NowPlayingScreen>
                         ),
                         color: cycleMode.when(
                           data: (mode) => mode != PlayerCycle.none
-                              ? Colors.deepOrange
-                              : Colors.grey[400],
-                          loading: () => Colors.grey[400],
-                          error: (_, __) => Colors.grey[400],
+                              ? context.theme.accentColor
+                              : context.theme.iconTheme.color,
+                          loading: () => context.theme.iconTheme.color,
+                          error: (_, __) => context.theme.iconTheme.color,
                         ),
                         size: 30,
                       ),
