@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:timed_app/core/utils/extensions.dart';
 
 import '../providers/timer_provider.dart';
 
@@ -11,27 +12,27 @@ class PlayerTimersTab extends ConsumerWidget {
     final playerTimers = ref.watch(playerTimerProvider);
 
     if (playerTimers.isEmpty) {
-      return const Center(
+      return Center(
         child: Text(
           'No player timers created yet',
-          style: TextStyle(color: Colors.grey, fontSize: 16),
+          style: TextStyle(color: context.theme.iconTheme.color, fontSize: 16),
         ),
       );
     }
 
     return GridView.builder(
       padding: const EdgeInsets.all(8),
-        gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-          maxCrossAxisExtent: 250,
-          childAspectRatio: 250 / 150,
-          crossAxisSpacing: 2,
-          mainAxisSpacing: 2,
-        ),
+      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 250,
+        childAspectRatio: 250 / 160,
+        crossAxisSpacing: 2,
+        mainAxisSpacing: 2,
+      ),
       itemCount: playerTimers.length,
       itemBuilder: (context, index) {
         final timer = playerTimers[index];
         return Card(
-          color: Colors.grey[900],
+          color: context.theme.cardColor,
           child: Padding(
             padding: const EdgeInsets.all(12),
             child: Column(
@@ -54,7 +55,9 @@ class PlayerTimersTab extends ConsumerWidget {
                     Switch(
                       value: timer.isActive,
                       onChanged: (value) {
-                        ref.read(playerTimerProvider.notifier).togglePlayerTimer(timer.id);
+                        ref
+                            .read(playerTimerProvider.notifier)
+                            .togglePlayerTimer(timer.id);
                       },
                       activeThumbColor: Colors.deepOrange,
                       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -64,12 +67,18 @@ class PlayerTimersTab extends ConsumerWidget {
                 const SizedBox(height: 3),
                 Text(
                   'Time: ${timer.time.format(context)}',
-                  style: const TextStyle(color: Colors.grey, fontSize: 12),
+                  style: TextStyle(
+                    color: context.theme.iconTheme.color,
+                    fontSize: 12,
+                  ),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   'Duration: ${timer.duration.inMinutes}m',
-                  style: const TextStyle(color: Colors.grey, fontSize: 12),
+                  style: TextStyle(
+                    color: context.theme.iconTheme.color,
+                    fontSize: 12,
+                  ),
                 ),
                 const SizedBox(height: 4),
                 Row(
@@ -78,7 +87,9 @@ class PlayerTimersTab extends ConsumerWidget {
                     Row(
                       children: [
                         Icon(
-                          timer.isActive ? Icons.play_circle : Icons.pause_circle,
+                          timer.isActive
+                              ? Icons.play_circle
+                              : Icons.pause_circle,
                           color: timer.isActive ? Colors.green : Colors.red,
                           size: 16,
                         ),
@@ -94,9 +105,15 @@ class PlayerTimersTab extends ConsumerWidget {
                       ],
                     ),
                     IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.red, size: 20),
+                      icon: const Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                        size: 20,
+                      ),
                       onPressed: () {
-                        ref.read(playerTimerProvider.notifier).deletePlayerTimer(timer.id);
+                        ref
+                            .read(playerTimerProvider.notifier)
+                            .deletePlayerTimer(timer.id);
                       },
                       padding: EdgeInsets.zero,
                       constraints: const BoxConstraints(),

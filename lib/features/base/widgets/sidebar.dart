@@ -5,6 +5,7 @@ import 'package:timed_app/commons/widgets/spacer.dart';
 import 'package:timed_app/core/constants/config_constatnts.dart';
 
 import '../../../core/constants/colors_constants.dart';
+import 'sidebar_header.dart';
 
 class Sidebar extends ConsumerWidget {
   const Sidebar({super.key});
@@ -35,54 +36,7 @@ class Sidebar extends ConsumerWidget {
       ),
       child: Column(
         children: [
-          Container(
-            height: 104.0,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              border: Border(bottom: BorderSide(color: BORDER_COLOR, width: 1)),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                RichText(
-                  text: const TextSpan(
-                    children: [
-                      TextSpan(
-                        text: 'T',
-                        style: TextStyle(
-                          color: Colors.orange,
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      TextSpan(
-                        text: 'M',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      TextSpan(
-                        text: 'P',
-                        style: TextStyle(
-                          color: Colors.deepOrange,
-                          fontSize: 30.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                // spacer(h: 20.0),
-                Text(
-                  'Timed Music Player',
-                  style: const TextStyle(color: Colors.white70, fontSize: 12),
-                ),
-              ],
-            ),
-          ),
+          SidebarHeader(),
           Expanded(
             child: ListView.builder(
               itemCount: navItems.length,
@@ -106,3 +60,4 @@ class Sidebar extends ConsumerWidget {
     );
   }
 }
+

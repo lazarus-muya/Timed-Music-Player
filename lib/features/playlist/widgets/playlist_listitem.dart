@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart';
+import 'package:timed_app/core/constants/colors_constants.dart';
 import 'package:timed_app/core/constants/constatnts.dart';
+import 'package:timed_app/core/utils/extensions.dart';
 import 'package:timed_app/features/playlist/providers/playlist_provider.dart';
 import '../../../commons/widgets/spacer.dart';
 import '../../../data/models/playlist.dart';
@@ -27,7 +29,9 @@ class PlaylistListItem extends ConsumerWidget {
       (ref) => TextEditingController(text: playlist!.name),
     );
     return Material(
-      color: isSelected ? Colors.black : Colors.transparent,
+      color: isSelected
+          ? context.theme.scaffoldBackgroundColor
+          : Colors.transparent,
       child: InkWell(
         onTap: onTap ?? () {},
         child: Ink(
@@ -36,7 +40,12 @@ class PlaylistListItem extends ConsumerWidget {
           padding: EdgeInsets.only(left: 10.0),
           decoration: BoxDecoration(
             border: isSelected
-                ? Border(left: BorderSide(color: Colors.orange, width: 4))
+                ? Border(
+                    left: BorderSide(
+                      color: context.theme.accentColor,
+                      width: 4,
+                    ),
+                  )
                 : Border(left: BorderSide(color: Colors.transparent, width: 4)),
           ),
           child: Row(
@@ -44,14 +53,17 @@ class PlaylistListItem extends ConsumerWidget {
             children: [
               Text(
                 playlist!.name,
-                style: TextStyle(color: Colors.white60, fontSize: 14.0),
+                style: TextStyle(
+                  color: context.theme.iconTheme.color,
+                  fontSize: 14.0,
+                ),
                 overflow: TextOverflow.ellipsis,
               ),
               // spacer(w: 10.0),
               const Spacer(),
               PopupMenuButton(
                 padding: EdgeInsets.zero,
-                iconColor: Colors.white60,
+                iconColor: context.theme.iconTheme.color,
                 itemBuilder: (context) => [
                   PopupMenuItem(
                     value: 'Rename',
@@ -69,7 +81,7 @@ class PlaylistListItem extends ConsumerWidget {
                             width: 400,
                             padding: const EdgeInsets.all(20.0),
                             decoration: BoxDecoration(
-                              // color: Colors.black,
+                              // color: context.theme.scaffoldBackgroundColor,
                               // borderRadius: BorderRadius.circular(6.0),
                             ),
                             child: Column(
@@ -77,7 +89,7 @@ class PlaylistListItem extends ConsumerWidget {
                                 Text(
                                   'Rename Playlist',
                                   style: TextStyle(
-                                    color: Colors.white70,
+                                    color: context.theme.iconTheme.color,
                                     fontSize: 20.0,
                                   ),
                                 ),
@@ -85,12 +97,14 @@ class PlaylistListItem extends ConsumerWidget {
                                 TextFormField(
                                   // initialValue: playlist!.name,
                                   controller: ref.read(nameController),
-                                  style: TextStyle(color: Colors.white),
+                                  style: TextStyle(
+                                    color: context.theme.iconTheme.color,
+                                  ),
                                   decoration: InputDecoration(
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(8),
                                       borderSide: BorderSide(
-                                        color: Colors.grey[300]!,
+                                        color: BORDER_COLOR,
                                       ),
                                     ),
                                   ),
@@ -118,7 +132,7 @@ class PlaylistListItem extends ConsumerWidget {
                                         child: Text(
                                           'Save',
                                           style: TextStyle(
-                                            // color: Colors.orange,
+                                            // color: context.theme.accentColor,
                                           ),
                                         ),
                                         onPressed: () async {

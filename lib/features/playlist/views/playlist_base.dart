@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart';
+import 'package:timed_app/core/utils/extensions.dart';
 import 'package:timed_app/features/playlist/providers/playlist_provider.dart';
 import 'package:timed_app/features/player/providers/player_provider.dart';
 import 'package:timed_app/core/services/file_services.dart';
@@ -50,7 +51,7 @@ class _PlaylistBaseState extends ConsumerState<PlaylistBase> {
                         },
                         child: Text(
                           'Create Playlist',
-                          style: TextStyle(color: Colors.deepOrange),
+                          style: TextStyle(color: context.theme.accentColor),
                         ),
                       ),
                     ),
@@ -63,7 +64,7 @@ class _PlaylistBaseState extends ConsumerState<PlaylistBase> {
                     children: [
                       Text(
                         'This playlist is empty',
-                        style: TextStyle(color: Colors.white60, fontSize: 14.0),
+                        style: TextStyle(color: context.theme.iconTheme.color, fontSize: 14.0),
                       ),
                       spacer(h: 20.0),
                       SizedBox(
@@ -106,14 +107,14 @@ class _PlaylistBaseState extends ConsumerState<PlaylistBase> {
                           },
                           child: Text(
                             'Add Tracks',
-                            style: TextStyle(color: Colors.deepOrange),
+                            style: TextStyle(color: context.theme.accentColor),
                           ),
                         ),
                       ),
                     ],
                   )
                 : Material(
-                    color: Colors.black,
+                    color: context.theme.scaffoldBackgroundColor,
                     child: ListView.builder(
                       itemCount: _getCurrentPlaylist(ref)?.tracks?.length ?? 0,
                       itemBuilder: (context, index) {
@@ -170,8 +171,10 @@ class _PlaylistBaseState extends ConsumerState<PlaylistBase> {
                       },
                     ),
                   ),
-            loading: () => const Center(
-              child: CircularProgressIndicator(color: Colors.deepOrange),
+            loading: () => Center(
+              child: CircularProgressIndicator(
+                color: context.theme.accentColor,
+              ),
             ),
             error: (error, stack) => Center(
               child: Text(
@@ -189,7 +192,7 @@ class _PlaylistBaseState extends ConsumerState<PlaylistBase> {
       width: PLAYLIST_WIDTH,
       decoration: BoxDecoration(
         border: Border(right: BorderSide(color: BORDER_COLOR, width: 1)),
-        color: Colors.black,
+        color: context.theme.scaffoldBackgroundColor,
       ),
       child: Column(
         children: [
@@ -205,13 +208,13 @@ class _PlaylistBaseState extends ConsumerState<PlaylistBase> {
               children: [
                 Text(
                   'Playlists',
-                  style: TextStyle(color: Colors.white, fontSize: 16.0),
+                  style: TextStyle(color: context.theme.iconTheme.color, fontSize: 16.0),
                 ),
                 IconButton(
                   onPressed: () async {
                     _createPlaylist(context);
                   },
-                  icon: Icon(Icons.add, color: Colors.white),
+                  icon: Icon(Icons.add, color: context.theme.iconTheme.color),
                 ),
               ],
             ),
@@ -234,8 +237,10 @@ class _PlaylistBaseState extends ConsumerState<PlaylistBase> {
                       },
                     ),
                   ),
-                  loading: () => const Center(
-                    child: CircularProgressIndicator(color: Colors.deepOrange),
+                  loading: () => Center(
+                    child: CircularProgressIndicator(
+                      color: context.theme.accentColor,
+                    ),
                   ),
                   error: (error, stack) => Center(
                     child: Text(
@@ -279,7 +284,7 @@ class _PlaylistBaseState extends ConsumerState<PlaylistBase> {
           width: 400,
           padding: const EdgeInsets.all(20.0),
           decoration: BoxDecoration(
-            color: Colors.black,
+            color: context.theme.scaffoldBackgroundColor,
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: Form(
@@ -290,7 +295,7 @@ class _PlaylistBaseState extends ConsumerState<PlaylistBase> {
               children: [
                 Text(
                   'Create New Playlist',
-                  style: TextStyle(color: Colors.white70, fontSize: 20.0),
+                  style: TextStyle(color: context.theme.iconTheme.color, fontSize: 20.0),
                 ),
                 spacer(h: 20.0),
                 Padding(
@@ -299,7 +304,7 @@ class _PlaylistBaseState extends ConsumerState<PlaylistBase> {
                     controller: _nameController,
                     validator: (value) =>
                         value!.isEmpty ? 'Name is required' : null,
-                    style: TextStyle(color: Colors.white),
+                    style: TextStyle(color: context.theme.iconTheme.color),
                     decoration: const InputDecoration(
                       labelText: 'Playlist Name',
                     ),
@@ -377,7 +382,7 @@ class MusicListItem extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Material(
-      color: Colors.black,
+      color: context.theme.scaffoldBackgroundColor,
       child: InkWell(
         onDoubleTap: onPlay,
         child: Ink(
@@ -392,14 +397,16 @@ class MusicListItem extends ConsumerWidget {
               Icon(
                 Icons.music_note,
                 size: 20,
-                color: isCurrent ? Colors.deepOrange : Colors.white60,
+                color: isCurrent ? context.theme.accentColor : context.theme.iconTheme.color,
               ),
               spacer(w: 10.0),
               Expanded(
                 child: Text(
                   track.title,
                   style: TextStyle(
-                    color: isCurrent ? Colors.deepOrange : Colors.white60,
+                    color: isCurrent
+                        ? context.theme.accentColor
+                        : context.theme.iconTheme.color,
                     fontSize: 14.0,
                     fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal,
                   ),

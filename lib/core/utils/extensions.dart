@@ -1,9 +1,18 @@
-import 'package:flutter/material.dart';
+// import 'package:flutter/material.dart';
+
+import 'package:fluent_ui/fluent_ui.dart';
+import 'package:toastification/toastification.dart';
 
 extension ContextExtension on BuildContext {
-  ThemeData get theme => Theme.of(this);
+  FluentThemeData get theme => FluentTheme.of(this);
 
-  TextTheme get textStyle => Theme.of(this).textTheme;
+  showToast({required String message, bool? isError}) => toastification.show(
+    context: this,
+    title: Text(message),
+    autoCloseDuration: const Duration(seconds: 2),
+    style: ToastificationStyle.fillColored,
+    type: isError ?? false ? ToastificationType.error : ToastificationType.info,
+  );
 }
 
 extension WidgetExtension on Widget {
