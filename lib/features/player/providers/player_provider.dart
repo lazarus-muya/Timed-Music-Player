@@ -66,6 +66,11 @@ final positionProvider = StreamProvider<double>((ref) {
   return audioService.positionStream;
 });
 
+final audioErrorProvider = StreamProvider<String>((ref) {
+  final audioService = ref.watch(audioServiceProvider);
+  return audioService.errorStream;
+});
+
 class PlayerNotifier extends Notifier<void> {
   @override
   void build() {
@@ -79,10 +84,11 @@ class PlayerNotifier extends Notifier<void> {
     ref.invalidateSelf();
   }
 
-  Future<void> playTrack(Track track) async {
+  Future<String> playTrack(Track track) async {
     final audioService = ref.read(audioServiceProvider);
-    await audioService.playTrack(track);
+    final result = await audioService.playTrack(track);
     ref.invalidateSelf();
+    return result;
   }
 
   Future<void> pause() async {

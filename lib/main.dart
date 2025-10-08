@@ -15,7 +15,7 @@ import 'package:timed_app/commons/widgets/timer_listener.dart';
 import 'package:timed_app/features/settings/providers/settings_provider.dart';
 import 'package:window_manager/window_manager.dart';
 
-import 'commons/providers/shared_providers.dart';
+// import 'commons/providers/shared_providers.dart';
 import 'core/constants/config_constatnts.dart';
 
 Future<void> main() async {

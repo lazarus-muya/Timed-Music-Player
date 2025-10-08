@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:timed_app/data/models/track.dart';
 import 'package:timed_app/data/models/playlist.dart';
@@ -16,6 +17,8 @@ class AudioService {
       StreamController<double>.broadcast();
   final StreamController<Duration?> _durationController =
       StreamController<Duration?>.broadcast();
+  final StreamController<String> _errorController =
+      StreamController<String>.broadcast();
 
   // Current playback state
   Track? _currentTrack;
@@ -40,6 +43,7 @@ class AudioService {
       _playerStateController.stream;
   Stream<double> get positionStream => _positionController.stream;
   Stream<Duration?> get durationStream => _durationController.stream;
+  Stream<String> get errorStream => _errorController.stream;
 
   Future<void> initialize() async {
     // Dispose existing player if any
@@ -104,16 +108,25 @@ class AudioService {
     await _playCurrentTrack();
   }
 
-  Future<void> playTrack(Track track) async {
+  Future<String> playTrack(Track track) async {
     if (_audioPlayer == null) {
-      return;
+      return 'Audio player is not initialized';
     }
 
-    _currentTrack = track;
+    final trackFile = File(track.path);
+    if (trackFile.existsSync() == false) {
+      // Track file does not exist
+      _errorController.add('Track file does not exist or has been deleted');
+      return 'TRACK_FILE_NOT_FOUND';
+    }
+
     try {
       await _audioPlayer!.play(DeviceFileSource(track.path));
+      _currentTrack = track; // Only set current track if playback succeeds
+      return '';
     } catch (e) {
       _playerStateController.add(app_state.PlayerState.stopped);
+      return 'Failed to play track: $e';
     }
   }
 
@@ -246,8 +259,13 @@ class AudioService {
       return;
     }
 
-    _currentTrack = _currentPlaylist!.tracks![_currentTrackIndex];
-    await playTrack(_currentTrack!);
+    final track = _currentPlaylist!.tracks![_currentTrackIndex];
+    final result = await playTrack(track);
+    
+    // If track file doesn't exist, skip to next track
+    if (result == 'TRACK_FILE_NOT_FOUND') {
+      await next();
+    }
   }
 
   void _handleTrackCompleted() {
@@ -268,5 +286,6 @@ class AudioService {
     _playerStateController.close();
     _positionController.close();
     _durationController.close();
+    _errorController.close();
   }
 }

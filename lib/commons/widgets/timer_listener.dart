@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:timed_app/core/utils/extensions.dart';
 import 'package:timed_app/features/timers/providers/timer_provider.dart';
+import 'package:timed_app/features/player/providers/player_provider.dart';
 import 'dart:async';
 
 class TimerListener extends ConsumerStatefulWidget {
@@ -74,6 +75,20 @@ class _TimerListenerState extends ConsumerState<TimerListener> {
 
           context.showToast(
             message: 'Track Timer ${timer.name} triggered - Switching playlist',
+          );
+        },
+        loading: () {},
+        error: (error, stack) {},
+      );
+    });
+
+    // Listen to audio error events
+    ref.listen(audioErrorProvider, (previous, next) {
+      next.when(
+        data: (errorMessage) {
+          context.showToast(
+            message: errorMessage,
+            isError: true,
           );
         },
         loading: () {},

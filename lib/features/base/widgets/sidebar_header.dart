@@ -1,10 +1,9 @@
 import 'package:fluent_ui/fluent_ui.dart';
+import 'package:timed_app/core/utils/extensions.dart';
 import '../../../core/constants/colors_constants.dart';
 
 class SidebarHeader extends StatelessWidget {
-  const SidebarHeader({
-    super.key,
-  });
+  const SidebarHeader({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +18,12 @@ class SidebarHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           RichText(
-            text: const TextSpan(
+            text: TextSpan(
               children: [
                 TextSpan(
                   text: 'T',
                   style: TextStyle(
-                    color: Colors.warningPrimaryColor,
+                    color: context.theme.accentColor,
                     fontSize: 30.0,
                     fontWeight: FontWeight.bold,
                   ),
@@ -32,7 +31,7 @@ class SidebarHeader extends StatelessWidget {
                 TextSpan(
                   text: 'M',
                   style: TextStyle(
-                    color: Colors.white,
+                    color: context.theme.iconTheme.color,
                     fontSize: 30.0,
                     fontWeight: FontWeight.bold,
                   ),
@@ -40,7 +39,7 @@ class SidebarHeader extends StatelessWidget {
                 TextSpan(
                   text: 'P',
                   style: TextStyle(
-                    color: Colors.warningPrimaryColor,
+                    color: context.theme.accentColor,
                     fontSize: 30.0,
                     fontWeight: FontWeight.bold,
                   ),
@@ -51,7 +50,10 @@ class SidebarHeader extends StatelessWidget {
           // spacer(h: 20.0),
           Text(
             'Timed Music Player',
-            style: const TextStyle(color: Colors.white, fontSize: 12),
+            style: TextStyle(
+              color: context.theme.iconTheme.color,
+              fontSize: 12,
+            ),
           ),
         ],
       ),
