@@ -34,8 +34,8 @@ Future<void> main() async {
   });
 
   final Directory appDocDir = await getApplicationSupportDirectory();
-  // final String hivePath = '${appDocDir.path}\\hive_data';
-  final String hivePath = '${appDocDir.path}\\hive_dev_data';
+  final String hivePath = '${appDocDir.path}\\timed_app_data';
+  // final String hivePath = '${appDocDir.path}\\hive_dev_data'; Development Hive path
   await Hive.initFlutter(hivePath);
   Hive.registerAdapter(AppSettingsAdapter());
 
@@ -71,7 +71,9 @@ class MainApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       title: 'Timed Music Player',
       // darkTheme: darkTheme,
-      theme: ref.watch(settingsProvider).themeMode == 'dark' ? darkTheme : lightTheme,
+      theme: ref.watch(settingsProvider).themeMode == 'dark'
+          ? darkTheme
+          : lightTheme,
       home: TimerListener(child: BaseView()),
     );
   }
