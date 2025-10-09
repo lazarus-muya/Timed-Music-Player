@@ -25,7 +25,7 @@ class FooterActions extends ConsumerWidget {
         padding: EdgeInsets.symmetric(horizontal: 10),
         decoration: BoxDecoration(
           border: Border(top: BorderSide(color: BORDER_COLOR, width: 1)),
-          color: Colors.black,
+          color: context.theme.scaffoldBackgroundColor,
         ),
         child: Column(
           children: [
