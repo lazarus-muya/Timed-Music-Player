@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:timed_app/commons/providers/shared_providers.dart';
 import 'package:timed_app/core/utils/extensions.dart';
 import 'dart:math' as math;
 
 import '../../../../commons/logic/player_state.dart';
-import '../../../../core/config/light_theme.dart';
 import '../../../../features/player/providers/player_provider.dart';
 import '../../../../features/player/providers/disc_animation_provider.dart';
 import '../../../../features/timers/providers/timer_provider.dart';

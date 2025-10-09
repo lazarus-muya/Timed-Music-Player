@@ -343,6 +343,7 @@ class _PlaylistBaseState extends ConsumerState<PlaylistBase> {
                                 .addPlaylist(playlist);
 
                             if (mounted) {
+                              // ignore: use_build_context_synchronously
                               Navigator.pop(context);
                               setState(() {});
                             }

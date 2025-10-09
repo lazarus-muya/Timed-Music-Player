@@ -27,6 +27,7 @@ SetupIconFile=C:\Users\dev\Documents\projects\flutter\timed_app\assets\images\di
 
 ; Require admin privileges
 ; PrivilegesRequired=admin
+PrivilegesRequired=lowest
 
 [Files]
 ; Copy the signed EXE to the installation folder

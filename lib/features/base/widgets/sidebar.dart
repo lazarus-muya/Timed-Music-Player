@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:timed_app/commons/providers/shared_providers.dart';
-import 'package:timed_app/commons/widgets/spacer.dart';
 import 'package:timed_app/core/constants/config_constatnts.dart';
 
 import '../../../core/constants/colors_constants.dart';

@@ -24,13 +24,13 @@ class AppSettingsAdapter extends TypeAdapter<AppSettings> {
       autoPlay: fields[4] as bool?,
       playerTimers: (fields[5] as List?)
           ?.map((dynamic e) => (e as Map).cast<String, dynamic>())
-          ?.toList(),
+          .toList(),
       trackTimers: (fields[6] as List?)
           ?.map((dynamic e) => (e as Map).cast<String, dynamic>())
-          ?.toList(),
+          .toList(),
       playlists: (fields[7] as List?)
           ?.map((dynamic e) => (e as Map).cast<String, dynamic>())
-          ?.toList(),
+          .toList(),
       options: (fields[8] as Map?)?.cast<String, dynamic>(),
     );
   }
